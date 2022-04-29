@@ -27,8 +27,7 @@ export class Component {
       updateElement($target, newChildNodes[i], oldChildNodes[i]);
     }
 
-    // 이벤트를 등록한다.
-    this.setEvent();
+    requestAnimationFrame(() => this.setEvent());
   }
 
   setEvent () {}

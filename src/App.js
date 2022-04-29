@@ -13,13 +13,19 @@ export class App extends Component {
       <button>추가</button>
     `;
   }
+
+  // 아이템 추가 메소드
+  addItem = () => {
+		const { items } = this.$state;
+		this.setState({ items: [ ...items, `item${items.length + 1}` ] });
+  }
   
   setEvent () {
-    // button을 클릭할 때 마다 state가 변경되고, 렌더링이 실행된다.
-    this.$target.querySelector('button').addEventListener('click', () => {
-      const { items } = this.$state;
-      this.setState({ items: [ ...items, `item${items.length + 1}` ] });
-    }); 
+    // setEvent 를 실행할 당시에는 this 가 App이 아닌 Component 를 가르키게 된다.
+    // 그래서 setEvent 가 실행하는 시점에서 1프레임 이후에 이벤트를 등록/삭제 하도록 한다.
+    const $addButton = this.$target.querySelector('button');
+    $addButton.removeEventListener('click', this.addItem);
+    $addButton.addEventListener('click', this.addItem);
   }
 }
 
